@@ -9,33 +9,63 @@ export default class App extends React.Component {
     }
   }
   calculateResult(text){
-    return "0"
+    this.state.resultText=""
   }
   buttononPress(text){
     if(text == '='){
-        return this.state.resultText
+        return this.calculateResult(text)
     }
+
    this.setState({
      resultText:this.state.resultText+text
    })
+  }
+  isoperator(op)
+  {
+    if(op == "+" || op =="-" || op =="*" || op =="/") return true
+  }
+  operate(operation)
+  {
+    switch(operation){
+      case 'DEL':
+        if(this.state.resultText =="") return 
+        
+        let text=this.state.resultText.split('');
+        text.pop();
+       this.setState({
+          resultText:text.join('')
+        })
+        break
+      case "+":
+      case "-":
+      case "*":
+      case "/":
+           if(this.state.resultText =="") return "";
+           if(this.isoperator(operation) && this.isoperator(this.state.resultText.split("")[this.state.resultText.length-1])) return "";
+           this.setState({
+           resultText:this.state.resultText+operation
+        })
+        break
+      
+    }
   }
   render() {
     let rowOper=[];
     let rows=[];
     let nums=[[1,2,3],[4,5,6],[7,8,9],[0,'=',"."]];
-    let oper=["+","/","-","*"];
-    for(let i=0;i<4;i++)
+    let oper=["DEL","+","/","-","*"];
+    for(let i=0;i<nums.length;i++)
     {
       let row=[];
-      for(let j=0;j<3;j++)
+      for(let j=0;j<nums[i].length;j++)
       {
         row.push(<TouchableOpacity onPress={()=>this.buttononPress(nums[i][j])} style={styles.btn}><Text style={styles.buttonText}>{nums[i][j]}</Text></TouchableOpacity> );
       }
       rows.push(<View style={styles.row}>{row}</View>);
     }
-    for(let i=0;i<4;i++)
+    for(let i=0;i<oper.length;i++)
     {
-      rowOper.push(<TouchableOpacity style={styles.btn}><Text style={styles.buttonTextOper}>{oper[i]}</Text></TouchableOpacity> );
+      rowOper.push(<TouchableOpacity onPress={()=>this.operate(oper[i])} style={styles.btn}><Text style={styles.buttonTextOper}>{oper[i]}</Text></TouchableOpacity> );
     }
 
     return (
@@ -79,14 +109,14 @@ const styles = StyleSheet.create({
    },
   result:{
     flex:2,
-    backgroundColor:'red',
+    backgroundColor:'white',
     justifyContent:'center',
     alignItems:'flex-end'
 
   },
   calculation:{
     flex:1,
-    backgroundColor:'green',
+    backgroundColor:'white',
     justifyContent:'center',
     alignItems:'flex-end',
   },
@@ -114,12 +144,12 @@ const styles = StyleSheet.create({
   },
   numbers:{
     flex:3,
-    backgroundColor:'yellow',
+    backgroundColor:'#434343',
     justifyContent:'space-around',
   },
   operations:{
     flex:1,
-    backgroundColor:'black',
+    backgroundColor:'#636363',
     justifyContent:'space-around',
     alignContent:'stretch',
   },
