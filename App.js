@@ -7,11 +7,16 @@ export default class App extends React.Component {
     this.state={
       resultText:"",
       pointcounter:0,
-    }
+   }
   }
+ 
   calculateResult(text){
    let list=this.state.resultText.split("");
-   this.state.resultText=list.pop();
+   let text1=list.pop();
+   let operator=list.pop();
+   let text2=list.pop();
+   this.state.resultText=""+(parseInt(text1)+parseInt(text2));
+   
   }
   
   buttononPress(text)
@@ -20,7 +25,7 @@ export default class App extends React.Component {
       this.setState({
         pointcounter:0,
       })
-        return this.calculateResult(text)
+      return this.calculateResult(text)
     }
     if(text== ".")
     {
