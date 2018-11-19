@@ -1,28 +1,51 @@
 import React from 'react';
-import { StyleSheet, Text, View,Button,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View,Button,TouchableOpacity,ActivityIndicator } from 'react-native';
 
 export default class App extends React.Component {
   constructor(){
     super()
     this.state={
       resultText:"",
+      pointcounter:0,
     }
   }
   calculateResult(text){
-    this.state.resultText=""
+   let list=this.state.resultText.split("");
+   this.state.resultText=list.pop();
   }
-  buttononPress(text){
+  
+  buttononPress(text)
+  {
     if(text == '='){
+      this.setState({
+        pointcounter:0,
+      })
         return this.calculateResult(text)
     }
-
+    if(text== ".")
+    {
+      if(this.state.pointcounter == 0)
+      {
+        if(this.state.resultText == "")
+        {
+          return ""
+        }
+        else{
+        this.setState({
+          pointcounter:1,
+        })
+      }
+      }
+      else return ""
+    }
    this.setState({
      resultText:this.state.resultText+text
    })
   }
+  
   isoperator(op)
   {
-    if(op == "+" || op =="-" || op =="*" || op =="/") return true
+    if(op == "+" || op =="-" || op =="*" || op =="/" ) return true
   }
   operate(operation)
   {
@@ -101,7 +124,7 @@ const styles = StyleSheet.create({
     fontSize:30,
    },
    btn:{
-    color:'black',
+    color:'white',
     flex:1,
     justifyContent:'space-around',
     alignItems:'center',
@@ -122,11 +145,11 @@ const styles = StyleSheet.create({
   },
   resultText:{
     fontSize:20,
-    color:'white',
+    color:'black',
   },
   calculationText:{
     fontSize:20,
-    color:'white',
+    color:'black',
   },
   
   row:{
