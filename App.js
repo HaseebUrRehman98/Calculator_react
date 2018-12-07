@@ -23,29 +23,37 @@ export default class App extends React.Component {
     if(text == '=')
     {
       let prova=this.state.calculationText.split("")
-      this.setState({
-        resultText:prova[0]
-      })
-      return ""
+      if(this.isoperator(prova[prova.length-1]));
+      else{
+        this.setState({
+          resultText:prova[0]
+        })
+        return ""
+      }
+     return ""
 
     }
     if(text== ".")
     {
-      if(this.state.pointcounter == 0)
-      {
-        if(this.state.resultText == "")
+      let prova=this.state.calculationText.split("")
+       if(this.state.calculationText == "")
         {
           return ""
         }
-        else{
-        this.setState({
-          pointcounter:1,
+        else if(this.isoperator(prova[prova.length-1]) || prova[prova.length-1]=="." )
+        {
+          return ""
+        }
+        if(this.state.pointcounter!=0)
+        {
+          return ""
+        }
+        else this.setState({
+          pointcounter:1
         })
-      }
-      }
-      else return ""
     }
    this.setState({
+     
      calculationText:this.state.calculationText+text
    })
   }
@@ -72,7 +80,7 @@ export default class App extends React.Component {
            if(this.state.calculationText=="") return "";
            if(this.isoperator(operation) && this.isoperator(this.state.calculationText.split("")[this.state.calculationText.length-1])) return "";
            this.setState({
-           
+            pointcounter:0,
             calculationText:this.state.calculationText+operation
         })
         break
