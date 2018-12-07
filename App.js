@@ -5,27 +5,29 @@ export default class App extends React.Component {
   constructor(){
     super()
     this.state={
-      resultText:"",
+      resultText:"0",
+      calculationText:"0",
       pointcounter:0,
+      numberCounter:0,
    }
   }
  
-  calculateResult(text){
-   let list=this.state.resultText.split("");
-   let text1=list.pop();
-   let operator=list.pop();
-   let text2=list.pop();
-   this.state.resultText=""+(parseInt(text1)+parseInt(text2));
+  calculateResult(text){ /* finish  this part*/
+  
+  
    
   }
   
   buttononPress(text)
   {
-    if(text == '='){
+    if(text == '=')
+    {
+      let prova=this.state.calculationText.split("")
       this.setState({
-        pointcounter:0,
+        resultText:prova[0]
       })
-      return this.calculateResult(text)
+      return ""
+
     }
     if(text== ".")
     {
@@ -44,7 +46,7 @@ export default class App extends React.Component {
       else return ""
     }
    this.setState({
-     resultText:this.state.resultText+text
+     calculationText:this.state.calculationText+text
    })
   }
   
@@ -56,22 +58,22 @@ export default class App extends React.Component {
   {
     switch(operation){
       case 'DEL':
-        if(this.state.resultText =="") return 
-        
-        let text=this.state.resultText.split('');
+        if(this.state.calculationText =="") return 
+        let text=this.state.calculationText.split('');
         text.pop();
-       this.setState({
-          resultText:text.join('')
+        this.setState({
+          calculationText:text.join('')
         })
         break
       case "+":
       case "-":
       case "*":
       case "/":
-           if(this.state.resultText =="") return "";
-           if(this.isoperator(operation) && this.isoperator(this.state.resultText.split("")[this.state.resultText.length-1])) return "";
+           if(this.state.calculationText=="") return "";
+           if(this.isoperator(operation) && this.isoperator(this.state.calculationText.split("")[this.state.calculationText.length-1])) return "";
            this.setState({
-           resultText:this.state.resultText+operation
+           
+            calculationText:this.state.calculationText+operation
         })
         break
       
@@ -98,11 +100,11 @@ export default class App extends React.Component {
 
     return (
    <View style={styles.container}>
+        <View style={styles.calculation}>
+       <Text style={styles.calculationText}>{this.state.calculationText}</Text>
+       </View>
         <View style={styles.result}>
         <Text style={styles.resultText}>{this.state.resultText}</Text>
-       </View>
-       <View style={styles.calculation}>
-       <Text style={styles.calculationText}>222</Text>
        </View>
       <View style={styles.buttons}>
          <View style={styles.numbers}>
@@ -136,14 +138,14 @@ const styles = StyleSheet.create({
    
    },
   result:{
-    flex:2,
+    flex:1,
     backgroundColor:'white',
     justifyContent:'center',
     alignItems:'flex-end'
 
   },
   calculation:{
-    flex:1,
+    flex:2,
     backgroundColor:'white',
     justifyContent:'center',
     alignItems:'flex-end',
