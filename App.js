@@ -26,7 +26,7 @@ export default class App extends React.Component {
       if(this.isoperator(prova[prova.length-1]));
       else{
         this.setState({
-          resultText:prova[0]
+          resultText:this.state.calculationText
         })
         return ""
       }
