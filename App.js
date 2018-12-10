@@ -11,24 +11,17 @@ export default class App extends React.Component {
       numberCounter:0,
    }
   }
- 
-  calculateResult(text){ /* finish  this part*/
-  
-  
-   
-  }
-  
-  buttononPress(text)
+   buttononPress(text)
   {
     if(text == '=')
     {
       let prova=this.state.calculationText.split("")
       if(this.isoperator(prova[prova.length-1]));
       else{
-        this.setState({
-          resultText:this.state.calculationText
+         this.setState({
+          resultText:eval(this.state.calculationText)
         })
-        return ""
+       return ""
       }
      return ""
 
