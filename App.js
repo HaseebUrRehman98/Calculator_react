@@ -6,7 +6,7 @@ export default class App extends React.Component {
     super()
     this.state={
       resultText:"0",
-      calculationText:"0",
+      calculationText:'0',
       pointcounter:0,
       numberCounter:0,
    }
@@ -15,9 +15,10 @@ export default class App extends React.Component {
   {
     if(text == '=')
     {
-      let prova=this.state.calculationText.split("")
+      let prova=this.state.calculationText.split('')
       if(this.isoperator(prova[prova.length-1]));
-      else{
+      else
+      {
          this.setState({
           resultText:eval(this.state.calculationText)
         })
@@ -28,12 +29,12 @@ export default class App extends React.Component {
     }
     if(text== ".")
     {
-      let prova=this.state.calculationText.split("")
-       if(this.state.calculationText == "")
+      let prova=(this.state.calculationText+'').split('')
+       if(this.state.calculationText == '')
         {
           return ""
         }
-        else if(this.isoperator(prova[prova.length-1]) || prova[prova.length-1]=="." )
+        else if(this.isoperator(prova[prova.length-1]) || prova[prova.length-1]=='.')
         {
           return ""
         }
@@ -45,10 +46,23 @@ export default class App extends React.Component {
           pointcounter:1
         })
     }
-   this.setState({
-     
-     calculationText:this.state.calculationText+text
-   })
+    if(this.state.calculationText == '0' && text!='.')
+    {
+      this.setState({
+        calculationText:text
+      })
+      return ""
+    }
+    else
+    {
+      this.setState({
+        calculationText:this.state.calculationText+''+text
+      })
+     }
+     return ""
+    
+    
+   
   }
   
   isoperator(op)
@@ -59,22 +73,34 @@ export default class App extends React.Component {
   {
     switch(operation){
       case 'DEL':
-        if(this.state.calculationText =="") return 
+     
+      if((this.state.calculationText+'').length <=1)
+      {
+        this.setState(
+          {
+            calculationText:'0'
+          }
+        )
+      }
+        else
+        {
         let text=this.state.calculationText.split('');
         text.pop();
         this.setState({
-          calculationText:text.join('')
+          calculationText:text.join(''),
+         
         })
+      }
         break
       case "+":
       case "-":
       case "*":
       case "/":
-           if(this.state.calculationText=="") return "";
-           if(this.isoperator(operation) && this.isoperator(this.state.calculationText.split("")[this.state.calculationText.length-1])) return "";
+          if(this.isoperator((this.state.calculationText+'').split('')[this.state.calculationText.length-1])) return "";
+        if((this.state.calculationText+'').split('')[this.state.calculationText.length-1]=='.') return "";
            this.setState({
             pointcounter:0,
-            calculationText:this.state.calculationText+operation
+            calculationText:this.state.calculationText+''+operation
         })
         break
       
